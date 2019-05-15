@@ -4,14 +4,14 @@ const postDb = require('../posts/postDb');
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
+router.post('/', validateUser, async (req, res) => {
     try{
-        const addPost = postDb.insert(req.body);
-        if(addPost) {
-            res.status(200).json(addPost);
+        const addUser = userDb.insert(req.body);
+        if(addUser) {
+            res.status(200).json(addUser);
         } else {
             res.status(400).json({
-                message: 'Post could not be added'
+                message: 'User could not be added'
             })
         }
     } catch(err) {
@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.post('/:id/posts', (req, res) => {
+router.post('/:id/posts', validateUserId, validatePost, async (req, res) => {
     try{
         const addUserPost = postDb.insert(req.body);
         if(addUserPost) {
@@ -55,7 +55,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', validateUserId, async (req, res) => {
     try{
         const user = await userDb.getById(req.params.id);
         if(user) {
@@ -72,7 +72,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.get('/:id/posts', async (req, res) => {
+router.get('/:id/posts', validateUserId, validatePost, async (req, res) => {
     try{
         const posts = await userDb.getUserPosts(req.params.id);
         if(posts.length > 0) {
@@ -89,7 +89,7 @@ router.get('/:id/posts', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', validateUserId, async (req, res) => {
     try {
         const user = await userDb.getById(req.params.id);
         if(user) {
@@ -109,7 +109,7 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', validateUserId, validatePost, async (req, res) => {
     try{
         const user = await userDb.update(req.params.id, req.body);
         if(user) {
