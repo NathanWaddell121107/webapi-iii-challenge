@@ -1,8 +1,11 @@
 const express = require('express');
 const port = 8000;
 const server = express();
+const UserRouter = require('./users/userRouter');
 
 server.use(express.json());
+
+server.use('/api/users', UserRouter)
 
 // custom Middleware
 server.use(logger);
