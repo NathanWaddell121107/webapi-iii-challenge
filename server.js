@@ -1,7 +1,10 @@
+require('dotenv').config();
+
 const express = require('express');
 const port = 8000;
 const server = express();
 const UserRouter = require('./users/userRouter');
+const PORT = process.env.PORT || 4000;
 
 server.use(express.json());
 
@@ -22,7 +25,7 @@ function logger(req, res, next) {
   next();
 };
 
-server.listen(port, () => {
+server.listen(PORT, () => {
   console.log(`Server is running on port ${port}`)
 })
 
