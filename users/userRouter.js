@@ -4,7 +4,7 @@ const postDb = require('../posts/postDb');
 
 const router = express.Router();
 
-router.post('/', validateUser, async (req, res) => {
+router.post('/', async (req, res) => {
     try{
         const addUser = userDb.insert(req.body);
         if(addUser) {
